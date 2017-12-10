@@ -27,7 +27,10 @@ public class HardwareHarold
     /* Public OpMode members. */
     public DcMotor  leftMotor   = null;
     public DcMotor  rightMotor  = null;
-
+    public DcMotor lifter = null;
+    public Servo whacker =null;
+    public Servo leftArm = null;
+    public Servo rightArm = null;
 
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.45 ;
@@ -46,26 +49,37 @@ public class HardwareHarold
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
+        // hey bob
 
         // Define and Initialize Motors
-        leftMotor   = hwMap.dcMotor.get("motorLeft");
-        rightMotor  = hwMap.dcMotor.get("motorRight");
+        leftMotor   = hwMap.dcMotor.get("left_motor");
+        rightMotor  = hwMap.dcMotor.get("right_motor");
+        lifter = hwMap.dcMotor.get("lifter");
         leftMotor.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors: done
         rightMotor.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motor:done
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        leftMotor.setPower(0.0);
+        rightMotor.setPower(0.0);
+        lifter.setPower(0.0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lifter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
        // armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        leftMotor.setPower(0.0);
+        rightMotor.setPower(0.0);
+        lifter.setPower(0.0);
         // Define and initialize ALL installed servos.
-//        leftClaw = hwMap.servo.get("left_hand");
+        whacker = hwMap.servo.get("stick_servo");
+        leftArm = hwMap.servo.get("lf");
+        rightArm = hwMap.servo.get("rf");
 //        rightClaw = hwMap.servo.get("right_hand");
-//        leftClaw.setPosition(MID_SERVO);
+        whacker.setPosition(0.0);
+        leftArm.setPosition(0.9);
+        rightArm.setPosition(0.0);
 //        rightClaw.setPosition(MID_SERVO);
     }
 
