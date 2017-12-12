@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -25,8 +24,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class HardwareHarold
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
+    public DcMotor leftMotor   = null;
+    public DcMotor rightMotor  = null;
     public DcMotor lifter = null;
     public Servo whacker =null;
     public Servo leftArm = null;
@@ -79,7 +78,7 @@ public class HardwareHarold
 //        rightClaw = hwMap.servo.get("right_hand");
         whacker.setPosition(0.0);
         leftArm.setPosition(0.9);
-        rightArm.setPosition(0.0);
+        rightArm.setPosition(0.15);
 //        rightClaw.setPosition(MID_SERVO);
     }
 

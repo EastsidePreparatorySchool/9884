@@ -36,11 +36,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuMarkInstanceId;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -71,7 +66,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 public class HaroldRedHardCenterV extends LinearOpMode {
     /* Declare OpMode members. */
-    HardwareHarold         robot   = new HardwareHarold();   // Use a Pushbot's hardware
+    HardwareHarold robot   = new HardwareHarold();   // Use a Pushbot's hardware
     private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1120;    // eg: AndyMark Motor Encoder
@@ -182,23 +177,23 @@ public class HaroldRedHardCenterV extends LinearOpMode {
         encoderDrive(TURN_SPEED,   45.72, -45.72, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout (12 inches did 180) (30.48 is 90)
         //TODO: different positions
         if (Position == "C"){
-            encoderDrive(TURN_SPEED,66,66,4.0);
+            encoderDrive(TURN_SPEED,81,81,4.0);
             // Actually center
             // screw lined up with screw on red
-        } else if (Position == "L"){
+        } else if (Position == "R"){
             // Note: Reverse movement is obtained by setting a negative distance (not speed)
             encoderDrive(DRIVE_SPEED,  55,  55, 5.0);  // code that determines which position
             // Actually R
         } else  {
             // Note: Reverse movement is obtained by setting a negative distance (not speed)
-            encoderDrive(DRIVE_SPEED,  100,  100, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
+            encoderDrive(DRIVE_SPEED,  105     ,  105, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
         }
 
         // TODO: Base code
         encoderDrive(TURN_SPEED,   30.48, -30.48, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout (12 inches did 180) (30.48 is 90)
         encoderDrive(DRIVE_SPEED, 23, 23, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
         robot.leftArm.setPosition(0.8);
-        robot.rightArm.setPosition(0.0);
+        robot.rightArm.setPosition(0.15);
         sleep(1000);
         encoderDrive(DRIVE_SPEED,-6,-6,4.0);
 //        robot.leftArm.setPosition(0.3);
