@@ -103,9 +103,9 @@ public class HaroldTeleopTank_Linear extends LinearOpMode {
 
 
             // triggers lifters
-            if(gamepad1.left_trigger >0) { //&& (robot.lifter.getCurrentPosition() <-48)){
+            if(gamepad1.left_trigger >0) {
                 robot.lifter.setPower(1*gamepad1.left_trigger);
-            } else if (gamepad1.right_trigger>0) { //&& (robot.lifter.getCurrentPosition() > -12876.1)){
+            } else if (gamepad1.right_trigger>0) {
                 robot.lifter.setPower(-1*gamepad1.right_trigger);
             } else {
                 robot.lifter.setPower(0.0);
@@ -213,23 +213,16 @@ public class HaroldTeleopTank_Linear extends LinearOpMode {
                 position = robot.lifter.getCurrentPosition();
             }
 
-//
+//left is acutally right and right ascutally left
 //            // Move both servos to new position.
             // at 0 left is all the way in and right is all the way out
             whackerPosition  = Range.clip(whackerPosition, 0.0, 0.6);
-            rightArmPosition = Range.clip(rightArmPosition, 0.1, 0.5); // GM: Changed min parameter to accommodate new servo mount position
-            leftArmPosition = Range.clip(leftArmPosition, 0.3,0.8);
+            leftArmPosition = Range.clip(leftArmPosition, 0.15, 0.7); // GM: Changed min parameter to accommodate new servo mount position
+            rightArmPosition = Range.clip(rightArmPosition, 0.15,0.9);
             robot.whacker.setPosition(whackerPosition);
             robot.leftArm.setPosition(leftArmPosition);
             robot.rightArm.setPosition(rightArmPosition);
-//            robot.arm.setPosition(armPosition);
-//            clawPosition = Range.clip(clawPosition, robot.CLAW_MIN_RANGE, robot.CLAW_MAX_RANGE);
-//            robot.claw.setPosition(clawPosition);
-//
-//            // Send telemetry message to signify robot running;
-//            telemetry.addData("arm",   "%.2f", armPosition);
-//            telemetry.addData("claw",  "%.2f", clawPosition);
-            telemetry.addData("position","%.2f", position);
+
             telemetry.addData("left",  "%.2f", left);
             telemetry.addData("right", "%.2f", right);
             telemetry.update();
