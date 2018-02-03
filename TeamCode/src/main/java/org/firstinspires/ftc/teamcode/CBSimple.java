@@ -32,7 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Cheerbot: Telop Simple", group = "Cheerbot")
+@TeleOp(name = "Cheerbot: Teleop Simple", group = "Cheerbot")
 
 public class CBSimple extends LinearOpMode {
 

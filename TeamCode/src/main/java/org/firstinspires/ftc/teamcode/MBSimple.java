@@ -33,7 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "Murderbot: Telop Simple", group = "Murderbot")
+@TeleOp(name = "Murderbot: Teleop Simple", group = "Murderbot")
 
 public class MBSimple extends LinearOpMode {
 
