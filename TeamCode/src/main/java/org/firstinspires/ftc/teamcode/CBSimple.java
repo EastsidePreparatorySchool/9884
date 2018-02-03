@@ -53,7 +53,7 @@ public class CBSimple extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Mr. Mein");
+        telemetry.addData("Say", "Hello Sophia");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -61,36 +61,15 @@ public class CBSimple extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-//            position =-1;
-//
-//            left = gamepad1.left_stick_y;
-//            right = gamepad1.right_stick_y;
-//            if(gamepad1.right_bumper){
-//                robot.leftFrontMotor.setPower(0.4*left);
-//                robot.rightFrontMotor.setPower(0.4*right);
-//                robot.leftBackMotor.setPower(0.4*left);
-//                robot.rightBackMotor.setPower(0.4*right);
-//            }  else {
-//                robot.leftFrontMotor.setPower(left);
-//                robot.rightFrontMotor.setPower(right);
-//                robot.leftBackMotor.setPower(left);
-//                robot.rightBackMotor.setPower(right);
-            robot.leftFrontMotor.setPower(1.0);
-            robot.rightFrontMotor.setPower(1.0);
-            robot.leftBackMotor.setPower(1.0);
-            robot.rightBackMotor.setPower(1.0);
-        }
+            left = gamepad1.left_stick_y;
+            right = gamepad1.right_stick_y;
+
+            robot.leftFrontMotor.setPower(left);
+            robot.rightFrontMotor.setPower(right);
+            robot.leftBackMotor.setPower(left);
+            robot.rightBackMotor.setPower(right);
 
 
-//            // triggers lifters
-//            if(gamepad1.left_trigger >0) { //&& (robot.lifter.getCurrentPosition() <-48)){
-//                robot.lifter.setPower(1*gamepad1.left_trigger);
-//            } else if (gamepad1.right_trigger>0) { //&& (robot.lifter.getCurrentPosition() > -12876.1)){
-//                robot.lifter.setPower(-1*gamepad1.right_trigger);
-//            } else {
-//                robot.lifter.setPower(0.0);
-//
-//            }
 //            //TODO: Servos
 //            // Use gamepad Y & A raise and lower the arm
 //            if (gamepad1.a) {
@@ -131,14 +110,15 @@ public class CBSimple extends LinearOpMode {
 //
 
 
-        // Send telemetry message to signify robot running;
+            // Send telemetry message to signify robot running;
 //            telemetry.addData("position","%.2f", position);
 //            telemetry.addData("left",  "%.2f", left);
 //            telemetry.addData("right", "%.2f", right);
 //            telemetry.update();
 
-        // Pause for 40 mS each cycle = update 25 times a second.
-        sleep(40);
+            // Pause for 40 mS each cycle = update 25 times a second.
+            sleep(40);
 
+        }
     }
 }

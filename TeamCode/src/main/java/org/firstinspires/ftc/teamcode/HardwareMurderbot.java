@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRGyro;
 
 /**
  * Hardware definitions for Murderbot
@@ -14,6 +17,7 @@ public class HardwareMurderbot {
     public DcMotor rightFrontMotor = null;
     public DcMotor leftBackMotor = null;
     public DcMotor rightBackMotor = null;
+    public GyroSensor gyro = null;
 
 
     /* local OpMode members. */
@@ -29,18 +33,19 @@ public class HardwareMurderbot {
     public void init(HardwareMap ahwMap) {
         // Save reference to Hardware map
         hwMap = ahwMap;
-        // hey bob
 
         // Define and Initialize Motors
         leftFrontMotor = hwMap.dcMotor.get("lfm");
         rightFrontMotor = hwMap.dcMotor.get("rfm");
         leftBackMotor = hwMap.dcMotor.get("lbm");
         rightBackMotor = hwMap.dcMotor.get("rbm");
+        gyro = hwMap.gyroSensor.get("g");
 
-        leftFrontMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
         leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightBackMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        gyro.calibrate();
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.

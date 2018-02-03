@@ -42,11 +42,11 @@ public class MBSimple extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        double left;
-        double right;
-        double up;
-        double down;
-        double position;
+        double drive = 0;
+        double strafe = 0;
+        double rotate = 0;
+        double total = 0;
+
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -62,81 +62,25 @@ public class MBSimple extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-//            position =-1;
-//
-//            left = gamepad1.left_stick_y;
-//            right = gamepad1.right_stick_y;
-//            if(gamepad1.right_bumper){
-//                robot.leftFrontMotor.setPower(0.4*left);
-//                robot.rightFrontMotor.setPower(0.4*right);
-//                robot.leftBackMotor.setPower(0.4*left);
-//                robot.rightBackMotor.setPower(0.4*right);
-//            }  else {
-//                robot.leftFrontMotor.setPower(left);
-//                robot.rightFrontMotor.setPower(right);
-//                robot.leftBackMotor.setPower(left);
-//                robot.rightBackMotor.setPower(right);
-            robot.leftFrontMotor.setPower(1.0);
-            robot.rightFrontMotor.setPower(1.0);
-            robot.leftBackMotor.setPower(1.0);
-            robot.rightBackMotor.setPower(1.0);
+            drive = -1.0 * gamepad1.right_stick_y;
+            strafe = gamepad1.right_stick_x;
+            rotate = gamepad1.left_stick_x;
+            total = Math.abs(drive) + Math.abs(strafe) + Math.abs(rotate);
+
+            robot.leftFrontMotor.setPower((drive + strafe + rotate) / total);
+            robot.leftBackMotor.setPower((drive - strafe + rotate) / total);
+            robot.rightFrontMotor.setPower((drive - strafe - rotate) / total);
+            robot.rightBackMotor.setPower((drive + strafe - rotate) / total);
         }
 
 
-//            // triggers lifters
-//            if(gamepad1.left_trigger >0) { //&& (robot.lifter.getCurrentPosition() <-48)){
-//                robot.lifter.setPower(1*gamepad1.left_trigger);
-//            } else if (gamepad1.right_trigger>0) { //&& (robot.lifter.getCurrentPosition() > -12876.1)){
-//                robot.lifter.setPower(-1*gamepad1.right_trigger);
-//            } else {
-//                robot.lifter.setPower(0.0);
-//
-//            }
-//            //TODO: Servos
-//            // Use gamepad Y & A raise and lower the arm
-//            if (gamepad1.a) {
-//                whackerPosition = 0;
-//            }
-//            else if (gamepad1.y) {
-//                whackerPosition = 0.4;
-//            }
-//            if(gamepad1.x){
-//                leftArmPosition -= 0.1;
-//                rightArmPosition +=0.1;
-//            } else if (gamepad1.b){
-//                leftArmPosition += 0.1;
-//                rightArmPosition -=0.1;
-//            }
-//            if(gamepad1.left_bumper){
-//                position = robot.lifter.getCurrentPosition();
-//            }
-//
-////
-////            // Use gamepad X & B to open and close the claw
-////            if (gamepad91.x)
-////                clawPosition += CLAW_SPEED;
-////            else if (gamepad1.b)
-////                clawPosition -= CLAW_SPEED;
-////
-////            // Move both servos to new position.
-//            // at 0 right is all the way in and left is all the way out
-//            whackerPosition  = Range.clip(whackerPosition, 0.0, 0.6);
-//            rightArmPosition = Range.clip(rightArmPosition, 0.3, 0.8);
-//            leftArmPosition = Range.clip(leftArmPosition, 0.3,0.8);
-//            robot.whacker.setPosition(whackerPosition);
-//            robot.leftArm.setPosition(leftArmPosition);
-//            robot.rightArm.setPosition(rightArmPosition);
-////            robot.arm.setPosition(armPosition);
-////            clawPosition = Range.clip(clawPosition, robot.CLAW_MIN_RANGE, robot.CLAW_MAX_RANGE);
-////            robot.claw.setPosition(clawPosition);
-//
-
-
         // Send telemetry message to signify robot running;
-//            telemetry.addData("position","%.2f", position);
-//            telemetry.addData("left",  "%.2f", left);
-//            telemetry.addData("right", "%.2f", right);
-//            telemetry.update();
+        telemetry.addData("drive", "%.2f", drive);
+        telemetry.addData("strafe", "%.2f", strafe);
+        telemetry.addData("rotate", "%.2f", rotate);
+        telemetry.addData("heading", "%.2f", robot.gyro.getHeading());
+
+        telemetry.update();
 
         // Pause for 40 mS each cycle = update 25 times a second.
         sleep(40);
