@@ -31,14 +31,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Murderbot: Teleop Simple", group = "Murderbot")
 
 public class MBSimple extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareMurderbot robot = new HardwareMurderbot();
+    MBHardware robot = new MBHardware();
 
     @Override
     public void runOpMode() {
@@ -65,25 +64,39 @@ public class MBSimple extends LinearOpMode {
             drive = -1.0 * gamepad1.right_stick_y;
             strafe = gamepad1.right_stick_x;
             rotate = gamepad1.left_stick_x;
-            total = Math.abs(drive) + Math.abs(strafe) + Math.abs(rotate);
+            total = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(rotate),1.0);
 
             robot.leftFrontMotor.setPower((drive + strafe + rotate) / total);
             robot.leftBackMotor.setPower((drive - strafe + rotate) / total);
             robot.rightFrontMotor.setPower((drive - strafe - rotate) / total);
             robot.rightBackMotor.setPower((drive + strafe - rotate) / total);
+
+            if (gamepad1.right_trigger > 0.1) {
+                if (gamepad1.right_trigger > 0.8) {
+                    // burst
+                    robot.d0.setState(true);
+                    sleep(300);
+                    robot.d0.setState(false);
+                } else {
+                    // single shot
+                    robot.d0.setState(true);
+                    sleep(100);
+                    robot.d0.setState(false);
+                }
+            }
+
+            // Send telemetry message to signify robot running;
+            telemetry.addData("drive", "%.2f", drive);
+            telemetry.addData("strafe", "%.2f", strafe);
+            telemetry.addData("rotate", "%.2f", rotate);
+            telemetry.addData("heading", "%d", robot.gyro.getHeading());
+            telemetry.addData("hit", "%.2f", robot.a0.getVoltage());
+
+            telemetry.update();
+
+            // Pause for 40 mS each cycle = update 25 times a second.
+            sleep(40);
         }
-
-
-        // Send telemetry message to signify robot running;
-        telemetry.addData("drive", "%.2f", drive);
-        telemetry.addData("strafe", "%.2f", strafe);
-        telemetry.addData("rotate", "%.2f", rotate);
-        telemetry.addData("heading", "%.2f", robot.gyro.getHeading());
-
-        telemetry.update();
-
-        // Pause for 40 mS each cycle = update 25 times a second.
-        sleep(40);
 
     }
 }

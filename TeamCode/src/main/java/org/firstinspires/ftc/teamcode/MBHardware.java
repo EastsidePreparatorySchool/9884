@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,13 +13,15 @@ import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRGyro;
 /**
  * Hardware definitions for Murderbot
  */
-public class HardwareMurderbot {
+public class MBHardware {
     /* Public OpMode members. */
     public DcMotor leftFrontMotor = null;
     public DcMotor rightFrontMotor = null;
     public DcMotor leftBackMotor = null;
     public DcMotor rightBackMotor = null;
     public GyroSensor gyro = null;
+    public AnalogInput a0 = null;
+    public DigitalChannel d0 = null;
 
 
     /* local OpMode members. */
@@ -25,7 +29,7 @@ public class HardwareMurderbot {
     private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwareMurderbot() {
+    public MBHardware() {
 
     }
 
@@ -40,6 +44,14 @@ public class HardwareMurderbot {
         leftBackMotor = hwMap.dcMotor.get("lbm");
         rightBackMotor = hwMap.dcMotor.get("rbm");
         gyro = hwMap.gyroSensor.get("g");
+        a0 = hwMap.analogInput.get("a0");
+        d0 = hwMap.digitalChannel.get("d0");
+
+
+        a0.getVoltage();
+        d0.setMode(DigitalChannel.Mode.OUTPUT);
+        d0.setState(false);
+
 
         leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
         rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);

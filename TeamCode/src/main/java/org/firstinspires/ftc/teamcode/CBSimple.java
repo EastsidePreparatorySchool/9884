@@ -37,7 +37,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class CBSimple extends LinearOpMode {
 
     /* Declare OpMode members. */
-    HardwareCheerbot robot = new HardwareCheerbot();
+    CBHardware robot = new CBHardware();
 
     @Override
     public void runOpMode() {
@@ -68,6 +68,7 @@ public class CBSimple extends LinearOpMode {
             robot.rightFrontMotor.setPower(right);
             robot.leftBackMotor.setPower(left);
             robot.rightBackMotor.setPower(right);
+
 
 
 //            //TODO: Servos

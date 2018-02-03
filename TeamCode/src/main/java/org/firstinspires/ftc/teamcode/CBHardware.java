@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Hardware definitions for Murderbot
  */
-public class HardwareCheerbot {
+public class CBHardware {
     /* Public OpMode members. */
     public DcMotor leftFrontMotor = null;
     public DcMotor rightFrontMotor = null;
@@ -21,7 +21,7 @@ public class HardwareCheerbot {
     private ElapsedTime period = new ElapsedTime();
 
     /* Constructor */
-    public HardwareCheerbot() {
+    public CBHardware() {
 
     }
 
