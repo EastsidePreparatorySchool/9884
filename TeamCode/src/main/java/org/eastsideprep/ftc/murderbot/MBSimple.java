@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package org.eastsideprep.ftc.murderbot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -53,7 +53,7 @@ public class MBSimple extends LinearOpMode {
         robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Mr. Mein");
+        telemetry.addData("Say", "Now over wireless");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
@@ -64,7 +64,7 @@ public class MBSimple extends LinearOpMode {
             drive = -1.0 * gamepad1.right_stick_y;
             strafe = gamepad1.right_stick_x;
             rotate = gamepad1.left_stick_x;
-            total = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(rotate),1.0);
+            total = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(rotate), 1.0);
 
             robot.leftFrontMotor.setPower((drive + strafe + rotate) / total);
             robot.leftBackMotor.setPower((drive - strafe + rotate) / total);
@@ -86,17 +86,19 @@ public class MBSimple extends LinearOpMode {
             }
 
             // Send telemetry message to signify robot running;
-            telemetry.addData("drive", "%.2f", drive);
-            telemetry.addData("strafe", "%.2f", strafe);
-            telemetry.addData("rotate", "%.2f", rotate);
-            telemetry.addData("heading", "%d", robot.gyro.getHeading());
-            telemetry.addData("hit", "%.2f", robot.a0.getVoltage());
+            telemetry.addLine()
+                    .addData("drive", "%.2f", drive)
+                    .addData("strafe", "%.2f", strafe)
+                    .addData("rotate", "%.2f", rotate);
+            telemetry.addLine()
+                    .addData("heading", "%d", robot.gyro.getHeading());
+            telemetry.addLine()
+                    .addData("hit", "%.2f", robot.a0.getVoltage());
 
             telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
         }
-
     }
 }
