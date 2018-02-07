@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.SensorMRGyro;
 
 /**
  * Hardware definitions for Murderbot
@@ -22,6 +21,10 @@ public class MBHardware {
     public GyroSensor gyro = null;
     public AnalogInput a0 = null;
     public DigitalChannel d0 = null;
+
+    public MBState state = new MBState();
+    final public double MAX_ROTATION_WEIGHT = 1.0;
+    public AverageValue avgA0;
 
 
     /* local OpMode members. */
@@ -47,16 +50,21 @@ public class MBHardware {
         a0 = hwMap.analogInput.get("a0");
         d0 = hwMap.digitalChannel.get("d0");
 
+        AverageValue.ValueGetter lambda = new AverageValue.ValueGetter() {
+            public double getValue() {
+                return a0.getVoltage();
+            }
+        };
 
-        a0.getVoltage();
+        avgA0 = new AverageValue(0.1, 2, 500, lambda, a0.getVoltage());
         d0.setMode(DigitalChannel.Mode.OUTPUT);
         d0.setState(false);
 
 
         leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontMotor.setDirection(DcMotor.Direction.FORWARD);
-        leftBackMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontMotor.setDirection(DcMotor.Direction.REVERSE);
+        leftBackMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightBackMotor.setDirection(DcMotor.Direction.REVERSE);
         gyro.calibrate();
 
         // Set all motors to run without encoders.
