@@ -46,6 +46,7 @@ public class CBSimple extends LinearOpMode {
         double up;
         double down;
         double position;
+        int hitCount = 0;
 
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
@@ -61,13 +62,25 @@ public class CBSimple extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            left = gamepad1.left_stick_y;
-            right = gamepad1.right_stick_y;
+            left = -gamepad1.left_stick_y;
+            right = -gamepad1.right_stick_y;
 
             robot.leftFrontMotor.setPower(left);
             robot.rightFrontMotor.setPower(right);
             robot.leftBackMotor.setPower(left);
             robot.rightBackMotor.setPower(right);
+
+
+            // check the laser detector
+            if (robot.avgA0.queryTrigger() == -1) {
+                hitCount++;
+            }
+
+            if (gamepad1.right_trigger > 0.5) {
+                robot.d0.setState(true);
+                robot.waitForTick(100);
+                robot.d0.setState(false);
+            }
 
 
 
@@ -112,10 +125,12 @@ public class CBSimple extends LinearOpMode {
 
 
             // Send telemetry message to signify robot running;
-//            telemetry.addData("position","%.2f", position);
-//            telemetry.addData("left",  "%.2f", left);
-//            telemetry.addData("right", "%.2f", right);
-//            telemetry.update();
+            telemetry.addLine()
+                    .addData("left", "%.2f", left)
+                    .addData("right", "%.2f", right);
+            telemetry.addLine()
+                    .addData("hitcount", "%d", hitCount);
+            telemetry.update();
 
             // Pause for 40 mS each cycle = update 25 times a second.
             sleep(40);
