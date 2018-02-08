@@ -68,11 +68,11 @@ public class MBSimple extends LinearOpMode {
             robot.state.right_stick_x = gamepad1.right_stick_x;
             robot.state.right_stick_y = gamepad1.right_stick_y;
             robot.state.right_trigger = gamepad1.right_trigger;
-            robot.state.orientation = ((double) robot.gyro.getHeading()) / 360 - Math.PI;
+            robot.state.orientation = (((double) robot.gyro.getIntegratedZValue()) / 360) * Math.PI * 2;
 
             // wheel commands have two components: drive/strafe and rotation. They have to be weighted.
 
-            double dsAngle = Math.atan2(robot.state.right_stick_x, robot.state.right_stick_y) + Math.PI;
+            double dsAngle = Math.atan2(robot.state.right_stick_x, robot.state.right_stick_y);
             double dsWeight = Math.sqrt(robot.state.right_stick_x * robot.state.right_stick_x + robot.state.right_stick_y * robot.state.right_stick_y);
             double rotPower = robot.MAX_ROTATION_WEIGHT * robot.state.left_stick_x + robot.state.orientationSweepDelta;
             double rotWeight = robot.MAX_ROTATION_WEIGHT * Math.abs(robot.state.left_stick_x + robot.state.orientationSweepDelta);
@@ -81,11 +81,11 @@ public class MBSimple extends LinearOpMode {
             robot.state.heading = dsAngle;
 
             if (gamepad1.left_bumper) {
-                rotPower *= 0.2;
+                rotPower *= 0.05;
             }
 
             if (gamepad1.right_bumper) {
-                dsWeight *= 0.2;
+                dsWeight *= 0.05;
             }
 
             if (dsWeight + rotWeight > 1.0) {
@@ -93,19 +93,19 @@ public class MBSimple extends LinearOpMode {
                 rotPower /= dsWeight + rotWeight;
             }
 
-            robot.leftFrontMotor.setPower(Math.cos(-dsAngle - Math.PI / 4) * dsWeight - rotPower * rotWeight);
-            robot.rightBackMotor.setPower(Math.cos(-dsAngle - Math.PI / 4) * dsWeight + rotPower * rotWeight);
-            robot.rightFrontMotor.setPower(Math.cos(-dsAngle + Math.PI / 4) * dsWeight + rotPower * rotWeight);
-            robot.leftBackMotor.setPower(Math.cos(-dsAngle + Math.PI / 4) * dsWeight - rotPower * rotWeight);
+            robot.leftFrontMotor.setPower(Math.cos(dsAngle + Math.PI / 4) * dsWeight - rotPower * rotWeight);
+            robot.rightBackMotor.setPower(Math.cos(dsAngle + Math.PI / 4) * dsWeight + rotPower * rotWeight);
+            robot.rightFrontMotor.setPower(Math.cos(dsAngle - Math.PI / 4) * dsWeight + rotPower * rotWeight);
+            robot.leftBackMotor.setPower(Math.cos(dsAngle - Math.PI / 4) * dsWeight - rotPower * rotWeight);
 
             if (gamepad1.right_trigger > 0.1) {
                 if (gamepad1.right_trigger > 0.9) {
                     // burst
-                    new Thread(new SingleShot(robot,300)).start();
+                    new Thread(new SingleShot(robot, 300)).start();
 
                 } else {
                     // single shot
-                    new Thread(new SingleShot(robot,100)).start();
+                    new Thread(new SingleShot(robot, 100)).start();
                 }
             }
 
@@ -126,13 +126,18 @@ public class MBSimple extends LinearOpMode {
 
 
             // reset heading
-            if (gamepad1.left_trigger> 0.9) {
+            if (gamepad1.left_trigger > 0.9) {
                 robot.gyro.resetZAxisIntegrator();
             }
 
             // Send telemetry message to signify robot running;
             telemetry.addLine()
+                    .addData("right x", "%.2f", gamepad1.right_stick_x)
+                    .addData("right y", "%.2f", gamepad1.right_stick_y)
+                    .addData("left x", "%.2f", gamepad1.left_stick_x);
+            telemetry.addLine()
                     .addData("dsAngle", "%.2f", dsAngle)
+                    .addData("dsWeight", "%.2f", dsWeight)
                     .addData("rotPower", "%.2f", rotPower);
             telemetry.addLine()
                     .addData("orientation", "%.2f", robot.state.orientation)

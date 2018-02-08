@@ -1,5 +1,6 @@
 package org.eastsideprep.ftc.murderbot;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -18,7 +19,7 @@ public class MBHardware {
     public DcMotor rightFrontMotor = null;
     public DcMotor leftBackMotor = null;
     public DcMotor rightBackMotor = null;
-    public GyroSensor gyro = null;
+    public ModernRoboticsI2cGyro gyro = null;
     public AnalogInput a0 = null;
     public DigitalChannel d0 = null;
 
@@ -46,7 +47,7 @@ public class MBHardware {
         rightFrontMotor = hwMap.dcMotor.get("rfm");
         leftBackMotor = hwMap.dcMotor.get("lbm");
         rightBackMotor = hwMap.dcMotor.get("rbm");
-        gyro = hwMap.gyroSensor.get("g");
+        gyro = hwMap.get(ModernRoboticsI2cGyro.class, "g");
         a0 = hwMap.analogInput.get("a0");
         d0 = hwMap.digitalChannel.get("d0");
 
