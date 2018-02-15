@@ -18,16 +18,33 @@ import static android.os.SystemClock.sleep;
 public class ELFModule extends I2cDeviceSynchDevice<I2cDeviceSynch> {
     final int ELF_I2C_ADDRESS = 0x47;
 
-    private enum Command {
-        REPORT_HITS(1),
-        FIRE_LASER(2),
-        SET_LASER_HEADING(3),
-        CALIBRATE_LEVEL(4),
-        GET_RESULT(5);
+    /* constants from Arduino file
+            #define MANUFACTURER_CODE_REGISTER  1
+            #define RESERVED_REGISTER           2
+            #define SENSOR_CODE_REGISTER        3
+            #define HITS_REGISTER               10
+            #define ENERGY_REGISTER             11
+            #define LEVEL_REGISTER              12
+            #define STATE_NEUTRAL               100
+            #define COMMAND_FIRE_LASER          101
+            #define COMMAND_SET_LASER_HEADING   102
+            #define COMMAND_CALIBRATE_LEVEL     103
+    */
+
+    private enum Register {
+        MANUFACTURER_CODE(1),
+        RESERVED(2),
+        SENSOR_CODE(3),
+        HITS(10),
+        ENERGY(11),
+        LEVEL(12),
+        FIRE_LASER(101),
+        SET_LASER_HEADING(102),
+        CALIBRATE_LEVEL(4);
 
         public int code;
 
-        Command(int code) {
+        Register(int code) {
             this.code = code;
         }
     }
@@ -59,18 +76,19 @@ public class ELFModule extends I2cDeviceSynchDevice<I2cDeviceSynch> {
         this.deviceClient.engage();
     }
 
-    public void fire(int ms) {
-        ArduinoCommand(Command.FIRE_LASER, ms);
+    public void fire(byte ms) {
+        ELFCommand(Register.FIRE_LASER, ms);
     }
 
 
-    private int ArduinoCommand(Command command, int parameter) {
-        byte[] bReadBuffer;
-
-        this.deviceClient.write(command.code, TypeConversion.intToByteArray(parameter));
-        sleep(20);
-        bReadBuffer = this.deviceClient.read(Command.GET_RESULT.code, 4);
-
-        return TypeConversion.byteArrayToInt(bReadBuffer, ByteOrder.LITTLE_ENDIAN);
+    private void ELFCommand(Register commandRegister, byte parameter) {
+        byte[] b = new byte[1];
+        b[0] = parameter;
+        this.deviceClient.write(commandRegister.code, b);
     }
+
+    private byte ELFRead(Register register){
+        return this.deviceClient.read(register.code, 1)[0];
+    }
+
 }
