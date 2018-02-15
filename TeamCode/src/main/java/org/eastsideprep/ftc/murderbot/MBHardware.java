@@ -20,8 +20,9 @@ public class MBHardware {
     public DcMotor leftBackMotor = null;
     public DcMotor rightBackMotor = null;
     public ModernRoboticsI2cGyro gyro = null;
-    public AnalogInput a0 = null;
-    public DigitalChannel d0 = null;
+    public ELFModule elf = null;
+//    public AnalogInput a0 = null;
+//    public DigitalChannel d0 = null;
 
     public MBState state = new MBState();
     final public double MAX_ROTATION_WEIGHT = 1.0;
@@ -48,18 +49,19 @@ public class MBHardware {
         leftBackMotor = hwMap.dcMotor.get("lbm");
         rightBackMotor = hwMap.dcMotor.get("rbm");
         gyro = hwMap.get(ModernRoboticsI2cGyro.class, "g");
-        a0 = hwMap.analogInput.get("a0");
-        d0 = hwMap.digitalChannel.get("d0");
+        elf = hwMap.get(ELFModule.class, "ELF");
+//        a0 = hwMap.analogInput.get("a0");
+//        d0 = hwMap.digitalChannel.get("d0");
 
-        AverageValue.ValueGetter lambda = new AverageValue.ValueGetter() {
-            public double getValue() {
-                return a0.getVoltage();
-            }
-        };
-
-        avgA0 = new AverageValue(0.1, 2, 500, lambda, a0.getVoltage());
-        d0.setMode(DigitalChannel.Mode.OUTPUT);
-        d0.setState(false);
+//        AverageValue.ValueGetter lambda = new AverageValue.ValueGetter() {
+//            public double getValue() {
+//                return a0.getVoltage();
+//            }
+//        };
+//
+//        avgA0 = new AverageValue(0.1, 2, 500, lambda, a0.getVoltage());
+//        d0.setMode(DigitalChannel.Mode.OUTPUT);
+//        d0.setState(false);
 
 
         leftFrontMotor.setDirection(DcMotor.Direction.FORWARD);

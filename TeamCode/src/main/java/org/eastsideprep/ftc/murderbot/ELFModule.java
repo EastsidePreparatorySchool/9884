@@ -76,8 +76,11 @@ public class ELFModule extends I2cDeviceSynchDevice<I2cDeviceSynch> {
         this.deviceClient.engage();
     }
 
-    public void fire(byte ms) {
-        ELFCommand(Register.FIRE_LASER, ms);
+    public void fire(int ms) {
+        ELFCommand(Register.FIRE_LASER, (byte)Math.min(ms,255));
+    }
+    public int getHitCount() {
+        return ELFRead(Register.HITS);
     }
 
 

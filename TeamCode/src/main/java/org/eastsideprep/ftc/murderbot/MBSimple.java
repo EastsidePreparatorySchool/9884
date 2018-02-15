@@ -110,16 +110,18 @@ public class MBSimple extends LinearOpMode {
             }
 
 
-            if (robot.avgA0.queryTrigger() == -1) {
-                robot.state.hitCount++;
-            }
+//            if (robot.avgA0.queryTrigger() == -1) {
+//                robot.state.hitCount++;
+//            }
+            robot.state.hitCount += robot.elf.getHitCount();
 
 
             // and now for things requested form other threads that we should only do from this thread
 
             synchronized (robot.state) {
                 if (robot.state.firectrl) {
-                    robot.d0.setState(robot.state.firing);
+//                    robot.d0.setState(robot.state.firing);
+                    robot.elf.fire(100);
                     robot.state.firectrl = false;
                 }
             }
@@ -143,8 +145,8 @@ public class MBSimple extends LinearOpMode {
                     .addData("orientation", "%.2f", robot.state.orientation)
                     .addData("heading", "%.2f", robot.state.heading);
             telemetry.addLine()
-                    .addData("A0", "%.2f", robot.a0.getVoltage())
-                    .addData("Avg A0", "%.2f", robot.avgA0.getValue())
+//                    .addData("A0", "%.2f", robot.a0.getVoltage())
+//                    .addData("Avg A0", "%.2f", robot.avgA0.getValue())
                     .addData("hitCount", "%d", robot.state.hitCount);
 
             telemetry.update();
